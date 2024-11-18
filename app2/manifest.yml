@@ -1,34 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app1
+  name: app2
   labels:
-    name: app1
+    name: app2
     tier: frontend
 spec:
   # modify replicas according to your case
   replicas: 1
   selector:
     matchLabels:
-      name: app1
+      name: app2
       tier: frontend
   template:
     metadata:
       labels:
-       name: app1
+       name: app2
        tier: frontend
     spec:
       containers:
-      - name: app1
-        image: saanvilikhith/app1:v1
+      - name: app2
+        image: saanvilikhith/app2:v1
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: app1
+  name: app2
 spec:
   selector:
-    name: app1
+    name: app2
     tier: frontend
   ports:
   - name: nginx-svc-port
@@ -39,7 +39,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: app1
+    name: app2
     annotations:
       kubernetes.io/ingress.class: alb
       alb.ingress.kubernetes.io/scheme: internet-facing
@@ -50,13 +50,13 @@ metadata:
       alb.ingress.kubernetes.io/group.name: expense
 spec:
     rules:
-    - host: "app1.ravijavadevops.site"
+    - host: "app2.ravijavadevops.site"
       http:
         paths:
         - pathType: Prefix
           path: "/"
           backend:
             service:
-              name: app1
+              name: app2
               port:
                 number: 80
